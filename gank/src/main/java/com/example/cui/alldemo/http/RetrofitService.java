@@ -10,7 +10,6 @@ import retrofit2.http.Path;
 
 
 /**
- * Created by lynn on 2018/1/18.
  * 与web api相对应，定义 get post head put delete等接口方法，具体查阅retrofit的api
  * 与rxjava结合和，可定义返回对象为 observable。便于后续的响应式开发
  * <p>

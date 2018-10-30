@@ -10,7 +10,6 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * Created by lynn on 2018/1/18.
  * 负责 Retrofit的build的参数设置，包括baseurl
  * httpclient 参数设置
  * Gsonconverter
