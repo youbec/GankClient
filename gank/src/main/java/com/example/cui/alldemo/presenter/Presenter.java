@@ -5,10 +5,6 @@ import android.content.Intent;
 import com.example.cui.alldemo.view.View;
 
 
-/**
- * Created by lynn on 2018/1/18.
- */
-
 public interface Presenter {
     void onCreate();
 
