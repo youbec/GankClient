@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#7D9EBF</color>
+    <color name="colorAccent">#FF4081</color>
+
+
+    <!--正文文字颜色-->
+    <color name="colorContent">#ff333333</color>
+    <!--首页item文字颜色-->
+    <color name="colorSubtitle">#999</color>
+    <!--页面背景的颜色-->
+    <color name="colorPageBg">#f2f4f5</color>
+    <!--item的水波纹颜色-->
+    <color name="itemBackgroundWhite">#cfff</color>
+    <color name="comment_text">#5b5d5c</color>
+    <!--item的分割线-->
+    <color name="colorLineItem">#FFDDDDDD</color>
+    <color name="black">#000000</color>
+</resources>
