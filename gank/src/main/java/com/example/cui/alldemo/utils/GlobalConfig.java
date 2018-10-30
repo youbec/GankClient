@@ -3,9 +3,6 @@ package com.example.cui.alldemo.utils;
 /**
  * 全局配置
  *
- * Author: nanchen
- * Email: liushilin520@foxmail.com
- * Date: 2017-04-14  9:43
  */
 
 public class GlobalConfig {
