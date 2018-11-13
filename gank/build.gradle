@@ -5,7 +5,7 @@ android {
     compileSdkVersion 26
     buildToolsVersion "27.0.3"
     defaultConfig {
-        applicationId "com.example.cui.gankclient"
+        applicationId "com.example.cui.alldemo"
         minSdkVersion 19
         targetSdkVersion 26
         versionCode 1
