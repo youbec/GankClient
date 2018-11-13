@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/AllDemo.iml" filepath="$PROJECT_DIR$/AllDemo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GankClient.iml" filepath="$PROJECT_DIR$/GankClient.iml" />
       <module fileurl="file://$PROJECT_DIR$/gank/gank.iml" filepath="$PROJECT_DIR$/gank/gank.iml" />
     </modules>
   </component>
