@@ -1,5 +1,5 @@
 # GankClient
-
+[Gank.Io](http://gank.io/)提供的API开发的一个客户端，练习项目，向大神学习。
 先上截图大家看看！
 
 ![image](https://github.com/youbec/GankClient/blob/master/images/m.jpg)
