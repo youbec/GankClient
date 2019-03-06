@@ -79,8 +79,7 @@ public class MainPresenter implements Presenter{
 
             @Override
             public void onError(@NonNull Throwable e) {
-                mainBeanView.onError(e.toString());
-
+                mainBeanView.onError("网络异常，请连接移动网络或WIFI");
             }
 
             @Override

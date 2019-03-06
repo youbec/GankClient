@@ -9,8 +9,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginTop="5dp"
+        android:layout_height="50dp"
+        android:background="@color/colorPrimaryDark"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -23,7 +23,7 @@
                 android:layout_height="20dp"
                 android:layout_marginLeft="5dp"
                 android:layout_centerVertical="true"
-                android:background="@drawable/icon_back" />
+                android:background="@drawable/back" />
 
             <LinearLayout
                 android:id="@+id/searchlin"
@@ -41,7 +41,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="5dp"
                     android:layout_weight="1"
-
+                    android:textCursorDrawable="@drawable/my_cursor"
                     android:background="@null"
                     android:hint="搜索文章"
                     android:imeOptions="actionSearch"

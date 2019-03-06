@@ -19,7 +19,7 @@
         <ImageView
             android:id="@+id/android_img"
             android:layout_width="200dp"
-            android:layout_height="220dp" />
+            android:layout_height="220dp"/>
 
 
 

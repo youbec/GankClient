@@ -17,6 +17,15 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="10dp"
+        android:text="本应用主要使用的技术:"
+        android:textColor="@color/black"
+        android:textSize="14sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="10dp"
         android:text="Rxjava2"
         android:textColor="@color/black"
         android:textSize="14sp" />

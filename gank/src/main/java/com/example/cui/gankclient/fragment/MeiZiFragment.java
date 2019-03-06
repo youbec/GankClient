@@ -10,15 +10,18 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.example.cui.gankclient.R;
 import com.example.cui.gankclient.activity.BigPhotoActivity;
 import com.example.cui.gankclient.adapter.MeiZiAdapter;
 import com.example.cui.gankclient.bean.MeiZi;
 import com.example.cui.gankclient.presenter.MeiZiPresenter;
+import com.example.cui.gankclient.utils.ACache;
 import com.example.cui.gankclient.view.MeiZiView;
-import com.example.cui.gankclient.R;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
@@ -49,7 +52,7 @@ public class MeiZiFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     //加载更多
     private int page = 1;
     private boolean isFirstPage = true;
-
+    private BaseQuickAdapter.OnItemChildClickListener onClickListener;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -69,7 +72,16 @@ public class MeiZiFragment extends Fragment implements SwipeRefreshLayout.OnRefr
                 new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(recyclerViewLayoutManager);
         recyclerView.setAdapter(meiZiAdapter = new MeiZiAdapter(new ArrayList<MeiZi.ResultsBean>()));
+        onClickListener = new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
 
+                Intent intent = new Intent(getActivity(), BigPhotoActivity.class);
+                MeiZi.ResultsBean bean = (MeiZi.ResultsBean) adapter.getData().get(position);
+                intent.putExtra(BigPhotoActivity.URL, bean.getUrl());
+                startActivity(intent);
+            }
+        };
         onRefresh();
         return view;
     }
@@ -79,6 +91,11 @@ public class MeiZiFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         public void onSuccess(final MeiZi meiZi) {
             avi.hide();
             results = meiZi.getResults();
+
+            JSONArray jsonArray=new JSONArray();
+            String meizi = jsonArray.toJSONString(results);
+            ACache.get(getActivity()).put("meizi",meizi,60*60);
+
             swipeRefreshLayout.setRefreshing(false);
             meiZiAdapter.loadMoreComplete();
             if (isFirstPage) {
@@ -90,19 +107,10 @@ public class MeiZiFragment extends Fragment implements SwipeRefreshLayout.OnRefr
             //添加打开动画
             meiZiAdapter.openLoadAnimation(ALPHAIN);
             //列表动画
-            meiZiAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
-            meiZiAdapter.isFirstOnly(false);
+//            meiZiAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
+//            meiZiAdapter.isFirstOnly(false);
 
-            meiZiAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-                @Override
-                public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-
-                    Intent intent = new Intent(getActivity(), BigPhotoActivity.class);
-                    MeiZi.ResultsBean bean = (MeiZi.ResultsBean) adapter.getData().get(position);
-                    intent.putExtra(BigPhotoActivity.URL, bean.getUrl());
-                    startActivity(intent);
-                }
-            });
+            meiZiAdapter.setOnItemChildClickListener(onClickListener);
             meiZiAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
                 @Override
                 public void onLoadMoreRequested() {
@@ -115,7 +123,18 @@ public class MeiZiFragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
         @Override
         public void onError(String result) {
-            Toast.makeText(getActivity(), result, Toast.LENGTH_LONG).show();
+            ToastUtils.showShort(result);
+            String meizi = ACache.get(getActivity()).getAsString("meizi");
+            List<MeiZi.ResultsBean> meiZiList = JSONObject.parseArray(meizi, MeiZi.ResultsBean.class);
+            if (meizi==null){
+                swipeRefreshLayout.setRefreshing(false);
+            }else {
+                swipeRefreshLayout.setRefreshing(false);
+                avi.hide();
+                meiZiAdapter.setNewData(meiZiList);
+                meiZiAdapter.setOnItemChildClickListener(onClickListener);
+
+            }
         }
     };
 

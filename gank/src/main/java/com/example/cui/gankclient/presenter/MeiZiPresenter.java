@@ -80,7 +80,7 @@ public class MeiZiPresenter implements Presenter {
 
             @Override
             public void onError(@NonNull Throwable e) {
-                mMeiZiView.onError(e.toString());
+                mMeiZiView.onError("网络异常，请连接移动网络或WIFI");
             }
 
             @Override

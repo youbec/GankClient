@@ -3,7 +3,6 @@ package com.example.cui.gankclient.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
@@ -16,6 +15,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.cui.gankclient.R;
 import com.example.cui.gankclient.adapter.MainAdapter;
 import com.example.cui.gankclient.bean.MainBean;
+import com.example.cui.gankclient.bean.ResultsBean;
 import com.example.cui.gankclient.presenter.SearchPresenter;
 import com.example.cui.gankclient.view.MainBeanView;
 
@@ -27,7 +27,7 @@ import butterknife.ButterKnife;
 
 import static com.chad.library.adapter.base.BaseQuickAdapter.ALPHAIN;
 
-public class SearchActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener{
+public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener{
 
     @BindView(R.id.searchet)
     EditText searchet;
@@ -42,7 +42,7 @@ public class SearchActivity extends AppCompatActivity implements SwipeRefreshLay
 
     private SearchPresenter searchPresenter = new SearchPresenter(this);
     private MainAdapter mainAdapter;
-    private List<MainBean.ResultsBean> results;
+    private List<ResultsBean> results;
 
     //加载更多
     private int page = 1;
@@ -61,7 +61,7 @@ public class SearchActivity extends AppCompatActivity implements SwipeRefreshLay
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(mainAdapter = new MainAdapter(new ArrayList<MainBean.ResultsBean>()));
+        recyclerView.setAdapter(mainAdapter = new MainAdapter(new ArrayList<ResultsBean>()));
 
         backtitle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,8 +73,8 @@ public class SearchActivity extends AppCompatActivity implements SwipeRefreshLay
         searchiv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                content = searchet.getText().toString();
-                Toast.makeText(SearchActivity.this, content,Toast.LENGTH_SHORT).show();
+              //  content = searchet.getText().toString();
+              //  Toast.makeText(SearchActivity.this, content,Toast.LENGTH_SHORT).show();
                 onRefresh();
             }
         });
@@ -112,8 +112,8 @@ public class SearchActivity extends AppCompatActivity implements SwipeRefreshLay
             //添加打开动画
             mainAdapter.openLoadAnimation(ALPHAIN);
             //列表动画
-            mainAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
-            mainAdapter.isFirstOnly(false);
+//            mainAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
+//            mainAdapter.isFirstOnly(false);
 
             mainAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
 
@@ -121,7 +121,7 @@ public class SearchActivity extends AppCompatActivity implements SwipeRefreshLay
                 public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
 
                     Intent intent = new Intent(SearchActivity.this, WebActivity.class);
-                    MainBean.ResultsBean bean = (MainBean.ResultsBean) adapter.getData().get(position);
+                    ResultsBean bean = (ResultsBean) adapter.getData().get(position);
                     intent.putExtra("bean", bean);
                     startActivity(intent);
                 }

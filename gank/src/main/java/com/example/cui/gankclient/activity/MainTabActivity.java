@@ -2,11 +2,9 @@ package com.example.cui.gankclient.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -15,7 +13,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.cui.gankclient.R;
-import com.example.cui.gankclient.bean.MainBean;
+import com.example.cui.gankclient.bean.ResultsBean;
 import com.example.cui.gankclient.fragment.AndroidFragment;
 import com.example.cui.gankclient.fragment.AppFragment;
 import com.example.cui.gankclient.fragment.Front_endFragment;
@@ -23,9 +21,10 @@ import com.example.cui.gankclient.fragment.IsoFragment;
 import com.example.cui.gankclient.fragment.MeiZiFragment;
 import com.example.cui.gankclient.fragment.RecommendFragment;
 import com.example.cui.gankclient.fragment.ResourceFragment;
-import com.example.cui.gankclient.fragment.VideoFragment;
+import com.example.cui.gankclient.utils.BuglyUtil;
 import com.example.cui.gankclient.utils.CommonViewPagerAdapter;
 import com.example.cui.gankclient.utils.GlobalConfig;
+import com.example.cui.gankclient.utils.SnackbarUtils;
 import com.kekstudio.dachshundtablayout.DachshundTabLayout;
 import com.kekstudio.dachshundtablayout.indicators.LineFadeIndicator;
 
@@ -36,7 +35,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainTabActivity extends AppCompatActivity {
+public class MainTabActivity extends BaseActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -71,6 +70,7 @@ public class MainTabActivity extends AppCompatActivity {
         toolbar.setTitle("Gank");
         toolbar.setNavigationIcon(R.drawable.ic_menu);
 
+        BuglyUtil.checkUpdate(false,false);
 
         setSupportActionBar(toolbar);
         //fragment list
@@ -78,25 +78,29 @@ public class MainTabActivity extends AppCompatActivity {
 
         String[] titles = {
                 GlobalConfig.CATEGORY_NAME_ANDROID,
+                GlobalConfig.CATEGORY_NAME_app,
                 GlobalConfig.CATEGORY_NAME_IOS,
-                GlobalConfig.CATEGORY_NAME_video,
-                GlobalConfig.CATEGORY_NAME_WOMAN,
+           //     GlobalConfig.CATEGORY_NAME_video,
+
                 GlobalConfig.CATEGORY_NAME_RESOURCE,
                 GlobalConfig.CATEGORY_NAME_FRONT_END,
                 GlobalConfig.CATEGORY_NAME_RECOMMEND,
-                GlobalConfig.CATEGORY_NAME_app
+                GlobalConfig.CATEGORY_NAME_WOMAN,
+
         };
 
         CommonViewPagerAdapter infoPagerAdapter = new CommonViewPagerAdapter(getSupportFragmentManager(), titles);
 
         infoPagerAdapter.addFragment(new AndroidFragment());
+        infoPagerAdapter.addFragment(new AppFragment());
         infoPagerAdapter.addFragment(new IsoFragment());
-        infoPagerAdapter.addFragment(new VideoFragment());
-        infoPagerAdapter.addFragment(new MeiZiFragment());
+      //  infoPagerAdapter.addFragment(new VideoFragment());
+
         infoPagerAdapter.addFragment(new ResourceFragment());
         infoPagerAdapter.addFragment(new Front_endFragment());
         infoPagerAdapter.addFragment(new RecommendFragment());
-        infoPagerAdapter.addFragment(new AppFragment());
+        infoPagerAdapter.addFragment(new MeiZiFragment());
+
 
         viewPager.setAdapter(infoPagerAdapter);
         mTabLayout.setupWithViewPager(viewPager);
@@ -117,6 +121,14 @@ public class MainTabActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.menu_save:
+                Intent intent2 = new Intent(this, CollectionActivity.class);
+                startActivity(intent2);
+                break;
+            case R.id.menu_set:
+                Intent intent1 = new Intent(this, SetActivity.class);
+                startActivity(intent1);
+                break;
             case R.id.menu_search:
                 Intent intent = new Intent(this, SearchActivity.class);
                 startActivity(intent);
@@ -134,8 +146,8 @@ public class MainTabActivity extends AppCompatActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
             if (System.currentTimeMillis() - firstBackTime > 2000) {
-                Snackbar.make(drawLayout, "再按一次退出应用", Snackbar.LENGTH_SHORT).show();
-                firstBackTime = System.currentTimeMillis();
+                SnackbarUtils.Short(drawLayout,"再按一次退出应用").messageCenter().show();
+                        firstBackTime = System.currentTimeMillis();
             } else {
                 finish();
                 System.exit(0);
@@ -175,7 +187,7 @@ public class MainTabActivity extends AppCompatActivity {
 
 
     public void StartIntent(String text){
-        MainBean.ResultsBean bean = new MainBean.ResultsBean();
+        ResultsBean bean = new ResultsBean();
         bean.setUrl(text);
         bean.setDesc(text);
         Intent intent = new Intent(this,WebActivity.class);

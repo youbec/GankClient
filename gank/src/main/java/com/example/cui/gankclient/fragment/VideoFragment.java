@@ -1,6 +1,5 @@
 package com.example.cui.gankclient.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,15 +9,18 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.example.cui.gankclient.activity.WebActivity;
+import com.example.cui.gankclient.R;
 import com.example.cui.gankclient.adapter.MainAdapter;
 import com.example.cui.gankclient.bean.MainBean;
+import com.example.cui.gankclient.bean.ResultsBean;
 import com.example.cui.gankclient.presenter.MainPresenter;
+import com.example.cui.gankclient.utils.ACache;
 import com.example.cui.gankclient.view.MainBeanView;
-import com.example.cui.gankclient.R;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
@@ -45,13 +47,12 @@ public class VideoFragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
     private MainPresenter mainPresenter = new MainPresenter(getActivity());
     private MainAdapter mainAdapter;
-    private List<MainBean.ResultsBean> results;
+    private List<ResultsBean> results;
 
     //加载更多
     private int page = 1;
     private boolean isFirstPage = true;
-    private String s;
-
+    private BaseQuickAdapter.OnItemClickListener onClickListener;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -67,7 +68,7 @@ public class VideoFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(mainAdapter = new MainAdapter(new ArrayList<MainBean.ResultsBean>()));
+        recyclerView.setAdapter(mainAdapter = new MainAdapter(new ArrayList<ResultsBean>()));
 
         onRefresh();
         return view;
@@ -78,6 +79,10 @@ public class VideoFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         public void onSuccess(final MainBean mainBean) {
             avi.hide();
             results = mainBean.getResults();
+
+            JSONArray jsonArray=new JSONArray();
+            String video = jsonArray.toJSONString(results);
+            ACache.get(getActivity()).put("video",video,60*60);
 
             swipeRefreshLayout.setRefreshing(false);
             mainAdapter.loadMoreComplete();
@@ -90,20 +95,10 @@ public class VideoFragment extends Fragment implements SwipeRefreshLayout.OnRefr
             //添加打开动画
             mainAdapter.openLoadAnimation(ALPHAIN);
             //列表动画
-            mainAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
-            mainAdapter.isFirstOnly(false);
+//            mainAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
+//            mainAdapter.isFirstOnly(false);
 
-            mainAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-
-                @Override
-                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
-                    Intent intent = new Intent(getActivity(), WebActivity.class);
-                    MainBean.ResultsBean bean = (MainBean.ResultsBean) adapter.getData().get(position);
-                    intent.putExtra("bean", bean);
-                    startActivity(intent);
-                }
-            });
+            mainAdapter.setOnItemClickListener(onClickListener);
             mainAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
                 @Override
                 public void onLoadMoreRequested() {
@@ -116,7 +111,17 @@ public class VideoFragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
         @Override
         public void onError(String result) {
-            Toast.makeText(getActivity(), result, Toast.LENGTH_LONG).show();
+            ToastUtils.showShort(result);
+            String video = ACache.get(getActivity()).getAsString("video");
+            List<ResultsBean> resultsBeen = JSONObject.parseArray(video, ResultsBean.class);
+            if (video==null){
+                swipeRefreshLayout.setRefreshing(false);
+            }else {
+                swipeRefreshLayout.setRefreshing(false);
+                avi.hide();
+                mainAdapter.setNewData(resultsBeen);
+                mainAdapter.setOnItemClickListener(onClickListener);
+            }
         }
     };
 

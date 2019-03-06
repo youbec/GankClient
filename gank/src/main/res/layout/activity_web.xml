@@ -1,51 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+tools:context="com.example.cui.gankclient.activity.WebActivity">
+
+<android.support.v7.widget.Toolbar
+    android:background="#7D9EBF"
+    android:id="@+id/toolbar"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical">
+    android:layout_height="40dp"
+    android:gravity="center">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@color/colorPrimaryDark">
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/back"
+        />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center"
-            android:layout_marginLeft="5dp">
+    <TextView
+        android:id="@+id/text_title"
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:text="标题"
+        android:gravity="center"
+        android:textColor="#2c2c2c"
+        android:textSize="18sp"
+        android:maxLines="1"
+        android:ellipsize="end"/>
 
-            <ImageView
-                android:id="@+id/back"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="5dp"
-                android:background="@drawable/back" />
-        </LinearLayout>
+</android.support.v7.widget.Toolbar>
 
+<LinearLayout
+    android:orientation="vertical"
+    android:id="@+id/linear"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+</LinearLayout>
 
-        <TextView
-            android:id="@+id/text_title"
-            android:layout_width="270dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:layout_marginLeft="30dp"
-            android:textSize="18sp"
-            android:textColor="#2c2c2c"
-            android:maxLines="1"
-            android:ellipsize="end"
-            />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:id="@+id/linear"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </LinearLayout>
 
 </LinearLayout>

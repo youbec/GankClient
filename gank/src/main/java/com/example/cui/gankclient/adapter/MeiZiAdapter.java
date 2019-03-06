@@ -4,6 +4,7 @@ import android.support.annotation.Nullable;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.cui.gankclient.R;
@@ -34,7 +35,11 @@ public class MeiZiAdapter extends BaseQuickAdapter<MeiZi.ResultsBean, BaseViewHo
 
         helper.addOnClickListener(R.id.item);
 
-        Glide.with(mContext).load(item.getUrl()).centerCrop().crossFade().into((ImageView) helper.getView(R.id.android_img));
+        Glide.with(mContext).load(item.getUrl())
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .crossFade()
+                .into((ImageView) helper.getView(R.id.android_img));
     }
 
 

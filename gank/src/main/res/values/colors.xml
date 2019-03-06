@@ -3,7 +3,7 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#7D9EBF</color>
     <color name="colorAccent">#FF4081</color>
-
+    <color name="red_swipe_menu">#fc0000</color>
 
     <!--正文文字颜色-->
     <color name="colorContent">#ff333333</color>
@@ -17,4 +17,5 @@
     <!--item的分割线-->
     <color name="colorLineItem">#FFDDDDDD</color>
     <color name="black">#000000</color>
+    <color name="color_light_blue">#00DDB6</color>
 </resources>
