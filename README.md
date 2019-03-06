@@ -7,7 +7,7 @@
 ![image](https://github.com/youbec/GankClient/blob/master/images/2.jpg)
 ![image](https://github.com/youbec/GankClient/blob/master/images/4.jpg)
 
-## 项目模式
+## 项目介绍
 
 * ### MVP
 
@@ -58,5 +58,10 @@
 	bugly是腾讯开发的服务，包括异常上报，运营统计，应用升级(包括全量升级和热更新)。
 	
 	热更新能力是Bugly为解决开发者紧急修复线上bug，而无需重新发版让用户无感知就能把问题修复的一项能力。Bugly目前采用微信Tinker的开源方案。
+
+##致谢
+	
+非常感谢
+
 
 
