@@ -7,9 +7,9 @@
 ![image](https://github.com/youbec/GankClient/blob/master/images/2.jpg)
 ![image](https://github.com/youbec/GankClient/blob/master/images/4.jpg)
 
-##项目模式
+## 项目模式
 
-* ###MVP
+* ### MVP
 
 * ### [Rxjava](https://github.com/ReactiveX/RxJava)
 
